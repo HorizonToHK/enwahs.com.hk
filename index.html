@@ -21,6 +21,7 @@
             --white: #ffffff;
             --gray: #6c757d;
             --gray-light: #e9ecef;
+            --input-bg: #d0d0d0;
             --success: #28a745;
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         }
@@ -79,6 +80,14 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+        }
+
+        /* Company Logo Image */
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 8px;
         }
 
         .logo-icon {
@@ -812,7 +821,7 @@
             text-decoration: underline;
         }
 
-        /* Contact Form */
+        /* Contact Form - GREY INPUT BACKGROUNDS */
         .contact-form-wrapper {
             background: white;
             border-radius: 24px;
@@ -849,17 +858,24 @@
             color: #dc3545;
         }
 
+        /* GREY BACKGROUND FOR INPUT FIELDS */
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 14px 18px;
-            border: 2px solid var(--gray-light);
+            border: 2px solid #c0c0c0;
             border-radius: 12px;
             font-size: 15px;
             font-family: inherit;
             transition: all 0.3s ease;
-            background: var(--light);
+            background: #d0d0d0;
+            color: var(--dark);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #707070;
         }
 
         .form-group input:focus,
@@ -867,7 +883,7 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            background: white;
+            background: #c8c8c8;
             box-shadow: 0 0 0 4px rgba(26, 95, 122, 0.1);
         }
 
@@ -1096,6 +1112,15 @@
             transform: translateY(-3px);
         }
 
+        /* WeChat specific styling */
+        .social-links a.wechat-link {
+            background: #07c160;
+        }
+
+        .social-links a.wechat-link:hover {
+            background: #06a854;
+        }
+
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 30px;
@@ -1134,6 +1159,72 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 35px rgba(37, 211, 102, 0.5);
+        }
+
+        /* WeChat Popup */
+        .wechat-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wechat-popup.show {
+            display: flex;
+        }
+
+        .wechat-popup-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .wechat-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .wechat-popup-content i {
+            font-size: 60px;
+            color: #07c160;
+            margin-bottom: 20px;
+        }
+
+        .wechat-popup-content h4 {
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .wechat-id {
+            font-size: 24px;
+            font-weight: 700;
+            color: #07c160;
+            background: #f0fff4;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            user-select: all;
+        }
+
+        .wechat-popup-content p {
+            color: var(--gray);
+            font-size: 14px;
         }
 
         /* Responsive Design */
@@ -1333,7 +1424,8 @@
     <header class="header" id="header">
         <div class="nav-container">
             <a href="#" class="logo">
-                <div class="logo-icon">安華</div>
+                <!-- COMPANY LOGO FROM assets/company logo.png -->
+                <img src="assets/company logo.png" alt="安華司會計 Enwahs Accounting" class="logo-img">
                 <div class="logo-text">
                     <span class="company-name lang-inline active" data-lang="tc">安華司會計稅務</span>
                     <span class="company-name lang-inline" data-lang="sc">安华司会计税务</span>
@@ -1384,6 +1476,19 @@
             <li><a href="#partners" onclick="closeMobileMenu()"><span class="lang-inline active" data-lang="tc">合作夥伴</span><span class="lang-inline" data-lang="sc">合作伙伴</span><span class="lang-inline" data-lang="en">Partners</span></a></li>
             <li><a href="#contact" onclick="closeMobileMenu()"><span class="lang-inline active" data-lang="tc">聯絡我們</span><span class="lang-inline" data-lang="sc">联络我们</span><span class="lang-inline" data-lang="en">Contact</span></a></li>
         </ul>
+    </div>
+
+    <!-- WeChat Popup -->
+    <div class="wechat-popup" id="wechatPopup">
+        <div class="wechat-popup-content">
+            <button class="wechat-popup-close" onclick="closeWechatPopup()">&times;</button>
+            <i class="fab fa-weixin"></i>
+            <h4>WeChat 微信</h4>
+            <div class="wechat-id">18926076119</div>
+            <p class="lang-inline active" data-lang="tc">請使用微信掃描或添加此ID</p>
+            <p class="lang-inline" data-lang="sc">请使用微信扫描或添加此ID</p>
+            <p class="lang-inline" data-lang="en">Please scan or add this WeChat ID</p>
+        </div>
     </div>
 
     <!-- Hero Section -->
@@ -2586,7 +2691,8 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <div class="logo-icon">安華</div>
+                        <!-- COMPANY LOGO IN FOOTER -->
+                        <img src="assets/company logo.png" alt="安華司會計 Enwahs Accounting" class="logo-img">
                         <div class="logo-text">
                             <span class="company-name lang-inline active" data-lang="tc">安華司會計稅務有限公司</span>
                             <span class="company-name lang-inline" data-lang="sc">安华司会计税务有限公司</span>
@@ -2644,11 +2750,20 @@
                     <p><i class="fas fa-phone-alt"></i> (852) 2429 9879</p>
                     <p><i class="fas fa-fax"></i> (852) 2429 9821</p>
                     <p><i class="fas fa-envelope"></i> info@enwahs.com.hk</p>
+                    
+                    <!-- UPDATED SOCIAL LINKS - WhatsApp, WeChat, Facebook, Email -->
                     <div class="social-links">
-                        <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
-                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <!-- WhatsApp - opens chat with 85297602698 -->
+                        <a href="https://wa.me/85297602698" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        
+                        <!-- WeChat - shows popup with WeChat ID -->
+                        <a href="javascript:void(0)" onclick="openWechatPopup()" class="wechat-link" title="WeChat 微信"><i class="fab fa-weixin"></i></a>
+                        
+                        <!-- Facebook - links to company page -->
+                        <a href="https://www.facebook.com/profile.php?id=100083609586317" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        
+                        <!-- Email - opens email app -->
+                        <a href="mailto:info@enwahs.com.hk" title="Email"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
             </div>
@@ -2668,8 +2783,8 @@
         </div>
     </footer>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/85224299879" class="whatsapp-float" target="_blank" title="WhatsApp">
+    <!-- Floating WhatsApp Button - Updated to 85297602698 -->
+    <a href="https://wa.me/85297602698" class="whatsapp-float" target="_blank" title="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -2741,6 +2856,22 @@
             mobileMenu.classList.remove('active');
         }
 
+        // WeChat Popup Functions
+        function openWechatPopup() {
+            document.getElementById('wechatPopup').classList.add('show');
+        }
+
+        function closeWechatPopup() {
+            document.getElementById('wechatPopup').classList.remove('show');
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('wechatPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeWechatPopup();
+            }
+        });
+
         // Header scroll effect
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
@@ -2751,9 +2882,7 @@
             }
         });
 
-        // ============================================
-        // FORM SUBMISSION - SENDS EMAIL VIA FORMSUBMIT.CO
-        // ============================================
+        // Form Submission - Sends email via FormSubmit.co
         const contactForm = document.getElementById('contactForm');
         const formSuccess = document.getElementById('formSuccess');
         const formError = document.getElementById('formError');
